@@ -3,6 +3,9 @@ const nextConfig = {
     images: {
         domains: ['zotdhjpwmybffyzgxsrz.supabase.co'],
     },
+    api: {
+        externalResolver: true,
+    },
 };
 
 export default nextConfig;
