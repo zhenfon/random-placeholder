@@ -23,6 +23,7 @@ export default function Home() {
   const { toast } = useToast();
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true); // Loading state
+  const [imageApiUrl, setImageApiUrl] = useState<string | null>(null);
 
   // Fetch random image
   const fetchRandomImage = async () => {
@@ -53,18 +54,23 @@ export default function Home() {
   // Copy URL to clipboard
   const copyToClipboard = async () => {
     try {
-      await navigator.clipboard.writeText(`${window.location.origin}/api/random-image`);  // Use dynamic URL
-      toast({
-        title: "Success",
-        description: "URL copied to clipboard!",
-      });
+      if (imageApiUrl) {
+        await navigator.clipboard.writeText(imageApiUrl);  // Use dynamic URL
+        toast({
+          title: "Success",
+          description: "URL copied to clipboard!",
+        });
+      }
     } catch (error) {
       alert('Failed to copy URL: ' + error);
     }
   };
 
-  // Run fetchRandomImage when the component mounts
+  // Set the API URL dynamically in the browser
   useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setImageApiUrl(`${window.location.origin}/api/random-image`);
+    }
     fetchRandomImage();
   }, []);
 
@@ -78,7 +84,7 @@ export default function Home() {
         <CardContent>
           <div className="flex flex-col gap-4">
             <div className="flex flex-row gap-1">
-              <Input value={`${window.location.origin}/api/random-image`} />  {/* Use dynamic origin */}
+              <Input value={imageApiUrl || ''} readOnly />  {/* Use dynamic origin */}
               <Button variant="outline" size="icon" onClick={copyToClipboard}>
                 <Copy className="h-[1.2rem] w-[1.2rem]" />
               </Button>
