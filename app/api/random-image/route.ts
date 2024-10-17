@@ -13,11 +13,15 @@ export async function GET() {
 
     const response = NextResponse.json({ url: imageUrl }, { status: 200 });
 
-    // Set cache-control header to prevent caching
-    response.headers.set('Cache-Control', 'no-store');
+    // Add multiple cache headers to prevent caching
+    response.headers.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+    response.headers.set('Pragma', 'no-cache');
+    response.headers.set('Expires', '0');
+    response.headers.set('Surrogate-Control', 'no-store');
 
     return response;
   } catch (error) {
     return NextResponse.json({ message: 'Error retrieving image', error }, { status: 500 });
   }
 }
+
