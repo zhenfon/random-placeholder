@@ -8,9 +8,16 @@ export async function GET() {
       return NextResponse.json({ message: 'No images found in the bucket' }, { status: 500 });
     }
 
+    // Select random image
     const randomImage = data[Math.floor(Math.random() * data.length)];
+    
+    // Log the random image for debugging
+    console.log('Random image selected:', randomImage);
+
+    // Construct image URL
     const imageUrl = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/placeholder-images/${randomImage.name}`;
 
+    // Construct response with cache-control headers
     const response = NextResponse.json({ url: imageUrl }, { status: 200 });
 
     // Add multiple cache headers to prevent caching
@@ -24,4 +31,3 @@ export async function GET() {
     return NextResponse.json({ message: 'Error retrieving image', error }, { status: 500 });
   }
 }
-

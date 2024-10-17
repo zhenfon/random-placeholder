@@ -85,9 +85,11 @@ export default function Home() {
           <div className="flex flex-col gap-4">
             <div className="flex flex-row gap-1">
               <Input value={imageApiUrl || ''} readOnly />  {/* Use dynamic origin */}
-              <Button variant="outline" size="icon" onClick={copyToClipboard}>
-                <Copy className="h-[1.2rem] w-[1.2rem]" />
-              </Button>
+              <div>
+                <Button variant="outline" size="icon" onClick={copyToClipboard}>
+                  <Copy className="h-[1.2rem] w-[1.2rem]" />
+                </Button>
+              </div>
             </div>
 
             <div className="w-full flex justify-center mt-6">
