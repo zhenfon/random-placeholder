@@ -1,9 +1,7 @@
 import { supabase } from '@/utils/supabase/client';
 import { NextResponse } from 'next/server';
 
-export const config = {
-  runtime: 'edge',  // Enforce this function to run as an edge function
-};
+export const runtime = 'edge';  // Enforce this function to run as an edge function
 
 export async function GET() {
   try {
