@@ -29,7 +29,7 @@ export default function Home() {
   const fetchRandomImage = async () => {
     setIsLoading(true);  // Start loading
     try {
-      const response = await fetch('/api/random-image');
+      const response = await fetch(`/api/random-image?timestamp=${new Date().getTime()}`);  // Add timestamp to avoid caching
       if (!response.ok) {
         const errorData = await response.json();
         toast({
