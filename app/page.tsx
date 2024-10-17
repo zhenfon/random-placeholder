@@ -2,8 +2,9 @@
 
 import { useState, useEffect } from 'react';
 import { Copy } from "lucide-react";
+import Image from 'next/image'; // Import Next.js Image component
 
-import { useToast } from "@/hooks/use-toast"
+import { useToast } from "@/hooks/use-toast";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
@@ -19,7 +20,7 @@ import {
 } from "@/components/ui/card";
 
 export default function Home() {
-  const { toast } = useToast()
+  const { toast } = useToast();
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true); // Loading state
 
@@ -33,7 +34,7 @@ export default function Home() {
         toast({
           title: "Something went wrong",
           description: "An unexpected error occurred: " + errorData,
-        })
+        });
         return;
       }
 
@@ -43,7 +44,7 @@ export default function Home() {
       toast({
         title: "Something went wrong",
         description: "An unexpected error occurred: " + error,
-      })
+      });
     } finally {
       setIsLoading(false);  // End loading
     }
@@ -52,11 +53,11 @@ export default function Home() {
   // Copy URL to clipboard
   const copyToClipboard = async () => {
     try {
-      await navigator.clipboard.writeText("https://zhenfon.github.io/random-placeholder/api/random-image");
+      await navigator.clipboard.writeText(`${window.location.origin}/api/random-image`);  // Use dynamic URL
       toast({
         title: "Success",
         description: "URL copied to clipboard!",
-      })
+      });
     } catch (error) {
       alert('Failed to copy URL: ' + error);
     }
@@ -77,7 +78,7 @@ export default function Home() {
         <CardContent>
           <div className="flex flex-col gap-4">
             <div className="flex flex-row gap-1">
-              <Input value="https://zhenfon.github.io/random-placeholder/api/random-image" />
+              <Input value={`${window.location.origin}/api/random-image`} />  {/* Use dynamic origin */}
               <Button variant="outline" size="icon" onClick={copyToClipboard}>
                 <Copy className="h-[1.2rem] w-[1.2rem]" />
               </Button>
@@ -91,10 +92,11 @@ export default function Home() {
               ) : (
                 imageUrl && (  // Only render the image if imageUrl is set
                   <AspectRatio ratio={1 / 1} className="w-[300px] h-[300px]">
-                    <img
-                      src={imageUrl}  // Use the imageUrl returned from the API
+                    <Image
+                      src={imageUrl}
                       alt="Random Placeholder"
-                      className="object-cover rounded-lg w-[300px] h-[300px]"
+                      fill   // Dynamically fills the parent container
+                      className="object-cover rounded-lg"
                     />
                   </AspectRatio>
                 )
