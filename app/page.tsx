@@ -2,13 +2,11 @@
 
 import { useState, useEffect } from 'react';
 import { Copy } from "lucide-react";
-import Image from 'next/image'; // Import Next.js Image component
-
 import { useToast } from "@/hooks/use-toast";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
-import { Skeleton } from "@/components/ui/skeleton"; // Import the Skeleton component
+import { Skeleton } from "@/components/ui/skeleton";
 
 import {
   Card,
@@ -100,11 +98,10 @@ export default function Home() {
               ) : (
                 imageUrl && (  // Only render the image if imageUrl is set
                   <AspectRatio ratio={1 / 1} className="w-[300px] h-[300px]">
-                    <Image
-                      src={imageUrl}
+                    <img
+                      src={imageUrl}  // Use the imageUrl returned from the API
                       alt="Random Placeholder"
-                      fill   // Dynamically fills the parent container
-                      className="object-cover rounded-lg"
+                      className="object-cover rounded-lg w-[300px] h-[300px]"  // Set width and height manually
                     />
                   </AspectRatio>
                 )
