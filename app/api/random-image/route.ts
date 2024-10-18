@@ -5,7 +5,6 @@ export const runtime = 'edge';  // Enforce this function to run as an edge funct
 
 export async function GET() {
   try {
-    // Fetch the list of images from Supabase storage
     const { data, error } = await supabase.storage.from('placeholder-images').list();
     if (error || !data || data.length === 0) {
       return new NextResponse(JSON.stringify({ message: 'No images found in the bucket' }), { status: 500 });
@@ -18,13 +17,16 @@ export async function GET() {
     // Construct the image URL
     const imageUrl = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/placeholder-images/${randomImage.name}`;
 
-    // Set cache headers to ensure no caching occurs
+    // Set CORS headers and cache-control headers
     const headers = {
       'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
       'Pragma': 'no-cache',
       'Expires': '0',
       'Surrogate-Control': 'no-store',
-      'x-vercel-cache': 'MISS',
+      'Access-Control-Allow-Origin': '*',  // Allow any domain to access
+      'Access-Control-Allow-Methods': 'GET, OPTIONS',  // Allow specific HTTP methods
+      'Access-Control-Allow-Headers': 'Content-Type',  // Allow specific headers
+      'x-vercel-cache': 'MISS',  // Added Vercel cache bypass header
     };
 
     return new NextResponse(JSON.stringify({ url: imageUrl }), {
