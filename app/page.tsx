@@ -27,18 +27,18 @@ export default function Home() {
   const fetchRandomImage = async () => {
     setIsLoading(true);  // Start loading
     try {
-      const response = await fetch('/api/random-image');
+      const response = await fetch('/api/random-image');  // The response will now be plain text
       if (!response.ok) {
-        const errorData = await response.json();
+        const errorText = await response.text();  // Parse the error as plain text
         toast({
           title: "Something went wrong",
-          description: "An unexpected error occurred: " + errorData,
+          description: "An unexpected error occurred: " + errorText,
         });
         return;
       }
 
-      const data = await response.json();
-      setImageUrl(data.url);  // Set the actual image URL from the API response
+      const imageUrl = await response.text();  // Parse the image URL as plain text
+      setImageUrl(imageUrl);  // Set the image URL directly
     } catch (error) {
       toast({
         title: "Something went wrong",
