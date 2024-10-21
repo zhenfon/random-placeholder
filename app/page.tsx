@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { Copy } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import Image from 'next/image';
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
@@ -98,9 +99,11 @@ export default function Home() {
               ) : (
                 imageUrl && (  // Only render the image if imageUrl is set
                   <AspectRatio ratio={1 / 1} className="w-[300px] h-[300px]">
-                    <img
+                    <Image
                       src={imageUrl}  // Use the imageUrl returned from the API
                       alt="Random Placeholder"
+                      width={300}
+                      height={300}
                       className="object-cover rounded-lg w-[300px] h-[300px]"  // Set width and height manually
                     />
                   </AspectRatio>
